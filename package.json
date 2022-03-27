@@ -29,7 +29,6 @@
     "rollup-plugin-uglify": "^6.0.4"
   },
   "scripts": {
-    "build": "cross-env NODE_ENV=production node build/build.js",
-    "pub": "npm publish --access public"
+    "build": "cross-env NODE_ENV=production node build/build.js"
   }
 }
