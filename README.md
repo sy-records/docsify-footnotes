@@ -8,7 +8,7 @@ A plugin that supports the use of footnotes in docsify.
 
 一个支持在 docsify 中使用脚注的插件。
 
-# Usage
+## Usage
 
 ```html
 <script src="//cdn.jsdelivr.net/npm/@sy-records/docsify-footnotes/lib/index.min.js"></script>
