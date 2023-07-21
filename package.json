@@ -1,6 +1,6 @@
 {
   "name": "@sy-records/docsify-footnotes",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A plugin that supports the use of footnotes in docsify.",
   "main": "src/index.js",
   "repository": {
