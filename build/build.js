@@ -39,14 +39,11 @@ async function build(opts) {
       }
     })
     .then(function (bundle) {
-      var dest = 'lib/' + (opts.output || opts.input)
+      var dest = 'dist/' + (opts.output || opts.input)
 
       console.log(dest)
       return bundle.write({
-        format: 'iife',
-        output: opts.globalName ? {name: opts.globalName} : {},
-        file: dest,
-        strict: false
+        output: {file: dest, format: 'iife', strict: false},
       })
     })
 }
