@@ -2,7 +2,7 @@ const rollup = require('rollup')
 const buble = require('rollup-plugin-buble')
 const commonjs = require('rollup-plugin-commonjs')
 const nodeResolve = require('rollup-plugin-node-resolve')
-const { uglify } = require('rollup-plugin-uglify')
+const terser = require('@rollup/plugin-terser')
 const replace = require('rollup-plugin-replace')
 const isProd = process.env.NODE_ENV === 'production'
 const version = process.env.VERSION || require('../package.json').version
@@ -65,7 +65,7 @@ async function buildPlugin() {
       promises.push(build({
         input: 'src/' + item.input,
         output: item.name + '.min.js',
-        plugins: [uglify()]
+        plugins: [terser()]
       }))
     })
   }
