@@ -9,6 +9,7 @@ on:
 
 jobs:
   publish:
+    if: github.repository == 'sy-records/docsify-footnotes'
     runs-on: ubuntu-latest
 
     steps:
