@@ -1,85 +1,54 @@
-const rollup = require('rollup')
-const buble = require('rollup-plugin-buble')
-const commonjs = require('rollup-plugin-commonjs')
-const nodeResolve = require('rollup-plugin-node-resolve')
-const terser = require('@rollup/plugin-terser')
-const replace = require('rollup-plugin-replace')
-const isProd = process.env.NODE_ENV === 'production'
-const version = process.env.VERSION || require('../package.json').version
+const fs = require('fs');
+const path = require('path');
+const { minify } = require('terser');
 
-/**
- * @param {{
- *   input: string,
- *   output?: string,
- *   globalName?: string,
- *   plugins?: Array<import('rollup').Plugin>
- * }} opts
- */
-async function build(opts) {
-  await rollup
-    .rollup({
-      input: opts.input,
-      plugins: (opts.plugins || []).concat([
-        buble(),
-        commonjs(),
-        nodeResolve(),
-        replace({
-          __VERSION__: version
-        })
-      ]),
-      onwarn: function (message) {
-        if (message.code === 'UNRESOLVED_IMPORT') {
-          throw new Error(
-            `Could not resolve module ` +
-            message.source +
-            `. Try running 'npm install' or using rollup's 'external' option if this is an external dependency. ` +
-            `Module ${message.source} is imported in ${message.importer}`
-          )
-        }
-      }
-    })
-    .then(function (bundle) {
-      var dest = 'dist/' + (opts.output || opts.input)
+const rootDir = path.resolve(__dirname, '..');
+const inputFile = path.join(rootDir, 'src', 'index.js');
+const distDir = path.join(rootDir, 'dist');
+const outputFile = path.join(distDir, 'index.js');
+const outputMinFile = path.join(distDir, 'index.min.js');
+const outputMinMapFile = path.join(distDir, 'index.min.js.map');
 
-      console.log(dest)
-      return bundle.write({
-        output: {file: dest, format: 'iife', strict: false},
-      })
-    })
+function cleanDist() {
+  if (fs.existsSync(distDir)) {
+    fs.rmSync(distDir, { recursive: true, force: true });
+    console.log('🧹 Cleaned up dist directory');
+  }
+  fs.mkdirSync(distDir, { recursive: true });
 }
 
-async function buildPlugin() {
-  var plugins = [
-    {name: 'index', input: 'index.js'},
-  ]
+async function build() {
+  cleanDist();
 
-  const promises = plugins.map(item => {
-    return build({
-      input: 'src/' + item.input,
-      output: item.name + '.js'
-    })
-  })
-
-  if (isProd) {
-    plugins.forEach(item => {
-      promises.push(build({
-        input: 'src/' + item.input,
-        output: item.name + '.min.js',
-        plugins: [terser()]
-      }))
-    })
+  if (!fs.existsSync(inputFile)) {
+    console.error(`❌ Source file not found: ${inputFile}`);
+    return;
   }
 
-  await Promise.all(promises)
+  let sourceCode = fs.readFileSync(inputFile, 'utf-8');
+
+  const wrappedCode = `(function () {\n${sourceCode}\n})();`;
+  fs.writeFileSync(outputFile, wrappedCode, 'utf-8');
+  console.log('✅ Generated non-minified version (IIFE): dist/index.js');
+
+  try {
+    const minified = await minify(sourceCode, {
+      compress: true,
+      mangle: true,
+      sourceMap: {
+        filename: 'index.min.js',
+        url: 'index.min.js.map'
+      }
+    });
+
+    fs.writeFileSync(outputMinFile, minified.code, 'utf-8');
+    console.log('✅ Generated minified version: dist/index.min.js');
+
+    fs.writeFileSync(outputMinMapFile, minified.map, 'utf-8');
+    console.log('✅ Generated minified source map: dist/index.min.js.map');
+  } catch (err) {
+    console.error('❌ Error during minification:', err);
+  }
 }
 
-async function main() {
-  await Promise.all([
-    buildPlugin()
-  ])
-}
-
-main().catch((e) => {
-  console.error(e)
-  process.exit(1)
-})
+build();

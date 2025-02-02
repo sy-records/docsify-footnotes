@@ -1,6 +1,6 @@
 {
   "name": "@sy-records/docsify-footnotes",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "A plugin that supports the use of footnotes in docsify.",
   "main": "dist/index.js",
   "repository": {
@@ -19,16 +19,9 @@
   },
   "homepage": "https://github.com/sy-records/docsify-footnotes#readme",
   "devDependencies": {
-    "@rollup/plugin-terser": "^0.4.4",
-    "cross-env": "^6.0.3",
-    "rollup": "^2.79.2",
-    "rollup-plugin-async": "^1.2.0",
-    "rollup-plugin-buble": "^0.19.8",
-    "rollup-plugin-commonjs": "^10.1.0",
-    "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-replace": "^2.2.0"
+    "terser": "^5.37.0"
   },
   "scripts": {
-    "build": "cross-env NODE_ENV=production node build/build.js"
+    "build": "node build/build.js"
   }
 }
