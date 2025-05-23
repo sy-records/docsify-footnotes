@@ -9,7 +9,7 @@ document.addEventListener('click', function (event) {
 function footnotes(hook) {
   hook.beforeEach((markdown) => {
     const codeBlocks = [];
-    const placeholder = (i) => `{{CODE${i}}}`;
+    const placeholder = (i) => `{{DOCSIFYFOOTNOTESCODE${i}}}`;
 
     const protectedMarkdown = markdown.replace(/(```[\s\S]*?```|`[^`\n]+`)/g, (match) => {
       const index = codeBlocks.length;
@@ -25,7 +25,7 @@ function footnotes(hook) {
             : `<sup class="footnote-symbol" data-ref="fnref-${id}" id="fn-${id}">[${id}](#fnref-${id})</sup>`
     );
 
-    return processed.replace(/\{\{CODE(\d+)\}\}/g, (_, index) => codeBlocks[+index]);
+    return processed.replace(/\{\{DOCSIFYFOOTNOTESCODE(\d+)\}\}/g, (_, index) => codeBlocks[+index]);
   });
 }
 
