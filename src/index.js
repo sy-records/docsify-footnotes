@@ -17,8 +17,6 @@ function footnotes(hook) {
       return placeholder(index);
     });
 
-    console.error(protectedMarkdown)
-
     const processed = protectedMarkdown.replace(/\[\^([A-Za-z0-9\-]+)\](\:)?/gm, (_, id, isDefinition) =>
         isDefinition
             ? `<strong class="footnote-reference-symbol" data-ref="fn-${id}" id="fnref-${id}">[${id}](#fn-${id})</strong>:leftwards_arrow_with_hook: `
