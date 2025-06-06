@@ -11,7 +11,7 @@ A plugin that supports the use of footnotes in docsify.
 ## Usage
 
 ```html
-<script src="//cdn.jsdelivr.net/npm/@sy-records/docsify-footnotes/dist/index.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/@sy-records/docsify-footnotes@2/dist/index.min.js"></script>
 ```
 
 ## Example
