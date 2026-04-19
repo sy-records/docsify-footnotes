@@ -14,7 +14,35 @@ A plugin that supports the use of footnotes in docsify.
 <script src="//cdn.jsdelivr.net/npm/@sy-records/docsify-footnotes@2/dist/index.min.js"></script>
 ```
 
-## Example
+## Configuration
+
+You can configure the plugin by setting `footnotes` in your `$docsify` config object.
+
+| Option | Type | Default                          | Description |
+|---|---|----------------------------------|---|
+| `backlinkIcon` | `string` | `':leftwards_arrow_with_hook:'` :leftwards_arrow_with_hook: | The icon rendered after each footnote definition as a backlink. Accepts an emoji, a Unicode character, an HTML entity string, or any arbitrary HTML. Set to `''` to disable the backlink icon entirely. |
+
+### Examples
+
+```js
+window.$docsify = {
+  footnotes: {
+    // Default: emoji (may render large on some platforms)
+    backlinkIcon: ':leftwards_arrow_with_hook:', // ↩
+
+    // Unicode text glyph (avoids emoji scaling, recommended)
+    backlinkIcon: '&#x21a9;&#xfe0e;',
+
+    // Any HTML is accepted
+    backlinkIcon: '<span class="footnote-backlink" aria-label="Back to reference" style="font-size:0.75em;line-height:1;">↩</span>',
+
+    // Disable the backlink icon
+    backlinkIcon: '',
+  }
+}
+```
+
+## Example Markdown
 
 ```markup
 Here's a simple footnote,[^1] and here's a longer one.[^bignote]
