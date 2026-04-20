@@ -22,6 +22,7 @@
     "terser": "^5.37.0"
   },
   "scripts": {
-    "build": "node build/build.js"
+    "build": "node build/build.js",
+    "test": "node --test"
   }
 }
