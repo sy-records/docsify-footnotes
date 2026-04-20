@@ -3,6 +3,7 @@
 [![](https://data.jsdelivr.com/v1/package/npm/@sy-records/docsify-footnotes/badge)](https://www.jsdelivr.com/package/npm/@sy-records/docsify-footnotes)
 [![](https://img.shields.io/npm/v/@sy-records/docsify-footnotes.svg?style=flat-square)](https://www.npmjs.com/package/@sy-records/docsify-footnotes)
 [![](https://img.shields.io/npm/l/@sy-records/docsify-footnotes)](https://github.com/sy-records/docsify-footnotes/blob/master/LICENSE)
+[![Test](https://github.com/sy-records/docsify-footnotes/actions/workflows/test.yml/badge.svg)](https://github.com/sy-records/docsify-footnotes/actions/workflows/test.yml)
 
 A plugin that supports the use of footnotes in docsify.
 
