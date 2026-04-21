@@ -1,5 +1,6 @@
 build/
-screenshots.png
 .idea/
 .github/
 src/
+docs/
+test/

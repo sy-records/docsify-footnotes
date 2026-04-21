@@ -1,6 +1,6 @@
 {
   "name": "@sy-records/docsify-footnotes",
-  "version": "2.2.3",
+  "version": "2.3.0",
   "description": "A plugin that supports the use of footnotes in docsify.",
   "main": "dist/index.js",
   "repository": {
@@ -22,6 +22,7 @@
     "terser": "^5.37.0"
   },
   "scripts": {
-    "build": "node build/build.js"
+    "build": "node build/build.js",
+    "test": "node --test"
   }
 }
