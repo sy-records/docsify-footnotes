@@ -115,7 +115,7 @@ function transformFootnotesMarkdown(markdown, options) {
 
   const processed = remappedMarkdown.replace(/\[\^([A-Za-z0-9-]+)](:)?/gm, (_, id, isDefinition) =>
     isDefinition
-      ? `<strong class="footnote-reference-symbol" data-ref="fn-${id}" id="fnref-${id}">[${id}](#fn-${id})</strong>${backlinkIcon}`
+      ? `<span class="footnote-reference-symbol" data-ref="fn-${id}" id="fnref-${id}">[${id}](#fn-${id})</span>${backlinkIcon}`
       : `<sup class="footnote-symbol" data-ref="fnref-${id}" id="fn-${id}">[[${id}]](#fnref-${id})</sup>`
   );
 
