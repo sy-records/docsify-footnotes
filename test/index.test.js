@@ -86,3 +86,15 @@ test('does not parse inline footnotes inside code spans or fenced code blocks', 
   assert.doesNotMatch(output, /fn-1/);
 });
 
+test('footnote definitions are separated with explicit breaks', () => {
+  const input = [
+    'A[^1] and B[^2].',
+    '',
+    '[^1]: First',
+    '[^2]: Second',
+  ].join('\n');
+  const output = transformFootnotesMarkdown(input, {});
+
+  assert.match(output, /\(#fn-1\)<br>\n<span class="footnote-reference-symbol" data-ref="fn-2" id="fnref-2">2:<\/span> Second/);
+});
+

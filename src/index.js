@@ -104,20 +104,27 @@ function expandInlineFootnotes(markdown) {
   });
 
   if (!definitions.length) return markdown;
-  return `${transformed}\n\n${definitions.join('<br>')}`;
+  return `${transformed}\n\n${definitions.join('\n')}`;
 }
 
-function transformFootnotesMarkdown(markdown, options) {
+function renderFootnoteDefinition(id, content, backlinkIcon) {
+  const backlink = backlinkIcon ? ` [${backlinkIcon}](#fn-${id})` : '';
+  return `<span class="footnote-reference-symbol" data-ref="fn-${id}" id="fnref-${id}">${id}:</span>${content}${backlink}<br>`;
+}
+
+function renderFootnoteReference(id) {
+  return `<sup class="footnote-symbol" data-ref="fnref-${id}" id="fn-${id}">[[${id}]](#fnref-${id})</sup>`;
+}
+
+function transformFootnotesMarkdown(markdown, options = {}) {
   const backlinkIcon = options.backlinkIcon !== undefined ? options.backlinkIcon : ':leftwards_arrow_with_hook:';
   const { protectedMarkdown, codeBlocks } = protectCodeBlocks(markdown);
   const inlineExpandedMarkdown = expandInlineFootnotes(protectedMarkdown);
   const remappedMarkdown = remapNumericFootnoteIds(inlineExpandedMarkdown);
 
-  const processed = remappedMarkdown.replace(/\[\^([A-Za-z0-9-]+)](:)?/gm, (_, id, isDefinition) =>
-    isDefinition
-      ? `<span class="footnote-reference-symbol" data-ref="fn-${id}" id="fnref-${id}">[${id}](#fn-${id})</span>${backlinkIcon}`
-      : `<sup class="footnote-symbol" data-ref="fnref-${id}" id="fn-${id}">[[${id}]](#fnref-${id})</sup>`
-  );
+  const processed = remappedMarkdown
+    .replace(/^\[\^([A-Za-z0-9-]+)]:([^\n]*)/gm, (_, id, content) => renderFootnoteDefinition(id, content, backlinkIcon))
+    .replace(/\[\^([A-Za-z0-9-]+)]/gm, (_, id) => renderFootnoteReference(id));
 
   return restoreCodeBlocks(processed, codeBlocks);
 }
