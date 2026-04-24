@@ -17,6 +17,18 @@ function cleanDist() {
   fs.mkdirSync(distDir, { recursive: true });
 }
 
+function buildBanner(pkg) {
+  return (
+    `/*!
+ * ${pkg.name} v${pkg.version}
+ * ${pkg.homepage}
+ *
+ * Copyright (c) 2022-${new Date().getFullYear()} ${pkg.author}
+ * Released under the ${pkg.license} License
+ */\n`
+  );
+}
+
 async function build() {
   cleanDist();
 
@@ -25,9 +37,11 @@ async function build() {
     return;
   }
 
+  const pkg = JSON.parse(fs.readFileSync(path.join(rootDir, 'package.json'), 'utf-8'));
+  const banner = buildBanner(pkg);
   let sourceCode = fs.readFileSync(inputFile, 'utf-8');
 
-  const wrappedCode = `(function () {\n${sourceCode}\n})();`;
+  const wrappedCode = `${banner}(function () {\n${sourceCode}\n})();`;
   fs.writeFileSync(outputFile, wrappedCode, 'utf-8');
   console.log('✅ Generated non-minified version (IIFE): dist/index.js');
 
@@ -35,6 +49,9 @@ async function build() {
     const minified = await minify(sourceCode, {
       compress: true,
       mangle: true,
+      output: {
+        preamble: banner.trimEnd(),
+      },
       sourceMap: {
         filename: 'index.min.js',
         url: 'index.min.js.map'
