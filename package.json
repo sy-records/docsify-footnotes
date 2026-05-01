@@ -1,6 +1,6 @@
 {
   "name": "@sy-records/docsify-footnotes",
-  "version": "2.3.1",
+  "version": "2.3.2",
   "description": "A plugin that supports the use of footnotes in docsify.",
   "main": "dist/index.js",
   "repository": {
@@ -17,7 +17,7 @@
   "bugs": {
     "url": "https://github.com/sy-records/docsify-footnotes/issues"
   },
-  "homepage": "https://github.com/sy-records/docsify-footnotes#readme",
+  "homepage": "https://footnotes.qq52o.me",
   "devDependencies": {
     "terser": "^5.37.0"
   },
