@@ -98,3 +98,19 @@ test('footnote definitions are separated with explicit breaks', () => {
   assert.match(output, /\(#fn-1\)<br>\n<span class="footnote-reference-symbol" data-ref="fn-2" id="fnref-2">2:<\/span> Second/);
 });
 
+test('supports multiline footnote definitions (nsenter case)', () => {
+  const input = [
+    'Here is some text[^nsenter].',
+    '',
+    '[^nsenter]: deploy devcontainer with `"capAdd":["ALL"]`,',
+    '    `"runArgs":["--pid=host"]` and `"securityOpt":["apparmor=unconfined"]`, then',
+    '    a `sudo nsenter -t 1 -m docker compose ...` runs the VM\'s docker CLI.',
+    '',
+    'Some more text.'
+  ].join('\n');
+  const output = transformFootnotesMarkdown(input, {});
+
+  assert.match(output, /nsenter:<\/span> deploy devcontainer with `\"capAdd\":\[\"ALL\"\]`,/);
+  assert.match(output, /`\"runArgs\":\[\"--pid=host\"\]` and `\"securityOpt\":\[\"apparmor=unconfined\"\]`, then/);
+  assert.match(output, /a `sudo nsenter -t 1 -m docker compose ...` runs the VM's docker CLI\. \[:leftwards_arrow_with_hook:\]/);
+});

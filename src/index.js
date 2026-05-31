@@ -123,7 +123,7 @@ function transformFootnotesMarkdown(markdown, options = {}) {
   const remappedMarkdown = remapNumericFootnoteIds(inlineExpandedMarkdown);
 
   const processed = remappedMarkdown
-    .replace(/^\[\^([A-Za-z0-9-]+)]:([^\n]*)/gm, (_, id, content) => renderFootnoteDefinition(id, content, backlinkIcon))
+    .replace(/^\[\^([A-Za-z0-9-]+)]:([^\n]*(?:\n[ \t]+[^\n]*)*)/gm, (_, id, content) => renderFootnoteDefinition(id, content, backlinkIcon))
     .replace(/\[\^([A-Za-z0-9-]+)]/gm, (_, id) => renderFootnoteReference(id));
 
   return restoreCodeBlocks(processed, codeBlocks);
